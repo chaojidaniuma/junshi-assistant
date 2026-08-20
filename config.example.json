@@ -1,0 +1,39 @@
+{
+  "target": {
+    "name": "宝宝（7.05）",
+    "wxid": "wxid_igzlj5tyt8mi22",
+    "remark": "回复对象（微信备注名，GUI 里可切换）"
+  },
+  "me": {
+    "name": "哈基鱼🐟",
+    "wxid": "wxid_3jyr0njgz0ut22"
+  },
+  "chatlab": {
+    "session": "",
+    "cli": "chatlab"
+  },
+  "llm": {
+    "model": "deepseek-chat",
+    "base_url": "https://api.deepseek.com/chat/completions",
+    "temperature": 0.85,
+    "timeout_seconds": 30
+  },
+  "location": {
+    "me": "",
+    "her": ""
+  },
+  "monitor": {
+    "poll_interval_seconds": 3,
+    "history_window": 20,
+    "cooldown_seconds": 45,
+    "min_interval_between_replies_seconds": 60,
+    "max_replies_per_hour": 30,
+    "only_text_messages": true,
+    "confirm_before_send": false,
+    "ignore_keywords": ["[图片]", "[表情]", "[语音]", "[文件]", "[视频]"]
+  },
+  "paths": {
+    "state_file": "data/state.json",
+    "log_dir": "logs"
+  }
+}

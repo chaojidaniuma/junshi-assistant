@@ -1,0 +1,28 @@
+# 运行时与本地数据（含隐私）
+config.json
+data/
+logs/
+*.log
+crash.log
+probe.log
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 构建产物
+build/
+dist/
+*.spec
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+
+# 测试/临时
+desktop_shot.png
+*.tmp
