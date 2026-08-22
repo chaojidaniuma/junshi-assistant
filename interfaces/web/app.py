@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import sys
 import threading
 import urllib.request
 from pathlib import Path
@@ -21,8 +22,14 @@ from junshi_harness.item import Item
 from junshi_harness.store import Store
 from runtime import MonitorRuntime
 
-ROOT = Path(__file__).resolve().parent.parent.parent  # goutoujuns22/
-INDEX_HTML = Path(__file__).resolve().parent / "index.html"
+
+def _index_html() -> Path:
+    """前端页面路径：打包后位于 _MEIPASS 解压目录，源码运行取同目录。"""
+    if getattr(sys, "frozen", False):
+        cand = Path(getattr(sys, "_MEIPASS", "")) / "interfaces" / "web" / "index.html"
+        if cand.exists():
+            return cand
+    return Path(__file__).resolve().parent / "index.html"
 
 # ---------------- AI 服务商预设（OpenAI 兼容） ----------------
 LLM_PRESETS: dict[str, dict] = {
@@ -154,7 +161,7 @@ class WebApp:
 
         @app.get("/", response_class=HTMLResponse)
         async def index():
-            return INDEX_HTML.read_text(encoding="utf-8")
+            return _index_html().read_text(encoding="utf-8")
 
         @app.get("/api/status")
         async def status():

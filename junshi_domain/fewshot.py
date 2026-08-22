@@ -4,11 +4,15 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 import time
 from pathlib import Path
 
-_ROOT = Path(__file__).resolve().parent.parent  # goutoujuns22/
-INDEX_DIR = _ROOT / "data" / "fewshot"
+if getattr(sys, "frozen", False):
+    ROOT = Path(sys.executable).resolve().parent      # exe 同级存数据
+else:
+    ROOT = Path(__file__).resolve().parent.parent
+INDEX_DIR = ROOT / "data" / "fewshot"
 
 
 def _bigrams(text: str) -> set[str]:

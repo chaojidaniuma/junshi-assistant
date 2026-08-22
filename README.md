@@ -1,7 +1,20 @@
-# 军师助手 · junshi-assistant
+# 狗头助手 · junshi-assistant
 
-> 基于 Codex Harness（Thread → Turn → Item）理念的微信 AI 回复 Agent 运行时。
-> v2 全新架构：有记忆、会思考、可审批、可扩展 —— 微信自动回复只是第一个应用场景。
+> 微信 AI 回复助手：基于 Agent 运行时架构，支持自动回复、确认后回复、仅预览三种模式。
+> 提供 Windows 单文件版，下载双击即可使用。
+
+## 桌面版（小白推荐）
+
+1. 下载 `dist/狗头助手.exe`（或自己打包，见下）
+2. 放到任意文件夹，**双击运行** —— 自动打开操作界面
+3. 首次使用：界面右上角「设置」→ 填写回复对象的微信备注名和 AI 的 API Key → 保存
+4. 点「启动监听」即可工作。所有数据保存在 exe 同级的 `config.json` / `data/`，删掉文件夹即彻底卸载
+
+自己打包：
+
+```bat
+build_exe.bat        :: 需要 Python 3.12 + 已 pip install -r requirements.txt
+```
 
 ## 架构
 
