@@ -5,7 +5,7 @@
 
 ## 桌面版（小白推荐）
 
-1. 下载 `dist/狗头助手.exe`（或自己打包，见下）
+1. 到 [Releases](https://github.com/chaojidaniuma/junshi-assistant/releases) 下载 `GouTouHelper.exe`（即狗头助手，GitHub 附件不支持中文名，下载后可随意改名）
 2. 放到任意文件夹，**双击运行** —— 自动打开操作界面
 3. 首次使用：界面右上角「设置」→ 填写回复对象的微信备注名和 AI 的 API Key → 保存
 4. 点「启动监听」即可工作。所有数据保存在 exe 同级的 `config.json` / `data/`，删掉文件夹即彻底卸载
