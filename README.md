@@ -1,77 +1,72 @@
-# 军师助手 · Junshi Assistant
+# 军师助手 · junshi-assistant
 
-> 基于情绪价值主基调与知识库判断的 AI 回复助手：每个对象独立风格档案、多候选回复系统判最优、花钱/见面承诺人工确认、异地感知、桌面 GUI + 可打包 EXE。
-
-## 功能
-
-- **知识库驱动回复判断**：内置 [goutoujunshi](https://github.com/powerycy/goutoujunshi)（MIT）关系心理学知识库（`kb/`，43 篇），每次生成按信号检索相关知识片段注入 prompt
-- **多候选回复**：一次生成 3 条不同风格回复，模型自评最优（⭐推荐）；确认模式可手动挑选
-- **每个对象独立风格档案**：从 ChatLab 聊天数据提炼「你对 TA 的说话方式」，切换对象自动换风格
-- **情绪价值主基调**：不引导花钱；涉及花钱/见面承诺的回复必须人工确认（任何模式都拦截）
-- **异地感知**：配置城市优先；未配置时从聊天数据规则分析 + LLM 语境分析自动判断
-- **三种模式**：dry 只生成 / 自动发送（系统推荐条）/ 确认后发送（弹窗手动选择）
-- **发送可靠性**：自定义发送流程（Enter + 按钮兜底 + 重试）；失败自动恢复待确认可重发
-- **防误发**：会话锚定 + 内容确认，绝不误发群聊
-- **桌面 GUI**：单实例、鼠标保护、待确认面板、设置中心（LLM/知识库/城市可插拔）、使用说明
-
-## 快速开始
-
-```bash
-pip install "git+https://github.com/zhengheng077/wxauto4.git"
-cp config.example.json config.json   # 填写 API Key 与目标对象
-
-python ui/gui.py          # 桌面版
-python main.py --dry      # CLI 只生成
-python main.py            # CLI 全自动
-```
-
-打包 EXE：`scripts\build.bat`（或手动）：
-
-```bash
-pip install pyinstaller
-pyinstaller --noconfirm --onefile --windowed --name junshi-assistant \
-  --collect-all wxauto4 --add-data "kb;kb" ui\gui.py
-# 复制 config.json 与 data/ 到 exe 同级目录
-```
+> 基于 Codex Harness（Thread → Turn → Item）理念的微信 AI 回复 Agent 运行时。
+> v2 全新架构：有记忆、会思考、可审批、可扩展 —— 微信自动回复只是第一个应用场景。
 
 ## 架构
 
 ```
-goutou/                核心引擎（平台无关）
-├── signals.py         信号检测（离线规则）
-├── kb.py              知识库检索（kb/ 目录，可替换，GOUTOU_KB_DIR 可指自定义）
-├── approval.py        需确认检测 + 异地判断（安全边界）
-├── prompts.py         system prompt 组装
-├── config.py          配置管理（LLM 端点/Key/知识库/城市 可插拔）
-└── engine.py          编排 + LLM 调用（OpenAI 兼容，可换任意服务）
-adapters/              平台适配层（微信 wxauto4；同接口可换其他 IM）
-ui/gui.py              tkinter 桌面 GUI
-kb/                    关系心理学知识库（MIT，见 kb/KB-LICENSE）
-main.py                CLI 入口
+junshi_harness/      Agent 运行时核心
+├── item.py          Item：原子事件（her_message/signal_detected/variant_generated/...）
+├── turn.py          Turn 执行器：信号→知识→范例→生成→审批→发送 状态机
+├── thread.py        Thread：一个对象一个会话（多对象并行的基石）
+├── store.py         SQLite 持久化（threads/turns/items/memory/approvals）
+├── event_bus.py     类型安全事件总线（WebSocket 直推结构化 Item）
+├── approval.py      分级审批引擎（auto/suggest/manual + 规则优先级 + 可注入时钟）
+├── policy.py        执行策略（限流/防抖/失败重试上限）
+├── context.py       上下文管理器（滑动窗口 + 关系记忆注入）
+└── config.py        配置（JSON，深合并默认值，实例化传递无全局单例）
+
+junshi_domain/       领域纯函数
+├── signals.py       情绪信号检测（离线规则）
+├── kb.py            关系心理学知识库检索（kb/references，MIT）
+├── fewshot.py       真人范例召回（bigram 轻量算法，零依赖）
+├── style.py         风格档案加载与格式化
+├── distance.py      异地判断（配置城市→关键词→城市词统计）
+├── humanize.py      去AI味（prompt 规则 + 可选二次重写 pass）
+└── prompts.py       System prompt 组装
+
+providers/           LLM 提供方（base 抽象 + OpenAI 兼容实现：重试/SSE 流式回退/JSON 提取）
+adapters/            平台适配（ChatAdapter 抽象基类 + 微信 wxauto4 实现）
+interfaces/web/      FastAPI REST + WebSocket + 自包含前端（毛玻璃 UI，无需 npm build）
+runtime.py           MonitorRuntime：轮询循环 → Turn 触发器
+run_web.py           Web 入口 → http://127.0.0.1:8766
+run_cli.py           CLI 入口（与 Web 共用同一 harness 栈）
+kb/                  关系心理学知识库（MIT，来自 powerycy/goutoujunshi）
+docs/REDESIGN.md     v1 → v2 重设计方案（Codex Harness 理念映射）
+tests/               16 项测试（harness 核心 11 + 领域层 5）
 ```
 
-分层原则：**引擎不依赖平台，平台可替换，知识库可更换，LLM 可插拔**。
+## 三种回复模式（顶栏切换，即时生效）
 
-## 配置（config.example.json）
-
-| 键 | 说明 |
+| 模式 | 行为 |
 |---|---|
-| `target.name` | 回复对象（微信备注名） |
-| `llm.base_url / api_key / model` | OpenAI 兼容端点（默认 DeepSeek；支持任意兼容服务） |
-| `kb.dir` | 知识库目录（留空 = 内置） |
-| `location.me / location.her` | 两人城市（异地判断最准，留空自动分析） |
-| `monitor.*` | 轮询间隔 / 冷却 / 频率上限 |
+| **自动回复** | 正常自动发送；花钱承诺 / 异地见面 / 深夜时段等风险回复仍会被拦截到「待确认」（安全网） |
+| **确认后回复**（默认） | 每条候选都进入「待确认」，由你选择一条批准发送或拒绝 |
+| **仅预览** | 只生成候选供复制，绝不发送 |
 
-API Key 优先级：`llm.api_key` > 环境变量 `DEEPSEEK_API_KEY` > `~/.dsh/.credentials.yaml`。
+## 快速开始
+
+```bash
+pip install -r requirements.txt
+copy config.example.json config.json    # 填写 target.name 与 llm.api_key
+
+python run_web.py                       # Web 界面
+python run_cli.py                       # CLI 模式
+python tests/test_harness.py            # 测试
+python tests/test_domain.py
+```
+
+## 核心语义
+
+- **消息可靠性**：终态 Turn（completed/failed/rejected）的消息不再处理；失败（aborted_retry）/处理中自动重试；启动恢复中断的 Turn —— 崩溃不丢消息、不重复回复
+- **媒体消息**：语音/图片/表情占位符只作时间线提示，不触发回复、不污染 LLM 上下文
+- **审批即数据**：所有待确认与决策持久化在 SQLite approvals 表，可回溯
+- **可观测**：每轮的信号检测/知识检索/范例召回聚合为一行摘要；过程日志独立抽屉
 
 ## 开源与合规
 
 - 本仓库代码：MIT（LICENSE）
 - 内置知识库：MIT，Copyright (c) 2026 powerycy（kb/KB-LICENSE，上游 [powerycy/goutoujunshi](https://github.com/powerycy/goutoujunshi)）
-- 微信适配基于 wxauto4（UI 自动化，非注入非解密）：[zhengheng077/wxauto4](https://github.com/zhengheng077/wxauto4)
-- **风险声明**：微信自动回复违反微信服务条款，存在封号风险；程序内置频率上限缓解；请仅用于合法合规的个人场景，商用前自行评估合规性
-
-## 相关
-
-- 知识库上游：[powerycy/goutoujunshi](https://github.com/powerycy/goutoujunshi)
-- 微信适配：[zhengheng077/wxauto4](https://github.com/zhengheng077/wxauto4)
+- 微信适配基于 wxauto4（UI 自动化）：[zhengheng077/wxauto4](https://github.com/zhengheng077/wxauto4)
+- **风险声明**：微信自动回复违反微信服务条款，存在封号风险；请仅用于合法合规的个人场景

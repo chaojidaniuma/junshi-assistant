@@ -1,0 +1,5 @@
+# junshi-harness v2 基座依赖（核心零重依赖：LLM 调用为标准库 urllib + sqlite3）
+fastapi>=0.110
+uvicorn>=0.29
+# 微信适配（可选，仅真实监听需要）
+# wxauto4 @ git+https://github.com/zhengheng077/wxauto4.git

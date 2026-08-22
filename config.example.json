@@ -1,39 +1,39 @@
 {
   "target": {
-    "name": "宝宝（7.05）",
-    "wxid": "wxid_igzlj5tyt8mi22",
-    "remark": "回复对象（微信备注名，GUI 里可切换）"
+    "name": "她的备注名",
+    "profile": [
+      "她对画像：性格、爱好、情绪特点（供生成参考，可留空）"
+    ]
   },
-  "me": {
-    "name": "哈基鱼🐟",
-    "wxid": "wxid_3jyr0njgz0ut22"
-  },
-  "chatlab": {
-    "session": "",
-    "cli": "chatlab"
-  },
+  "me": { "name": "", "wxid": "" },
+  "chatlab": { "session": "", "cli": "chatlab" },
   "llm": {
     "model": "deepseek-chat",
     "base_url": "https://api.deepseek.com/chat/completions",
     "temperature": 0.85,
-    "timeout_seconds": 30
+    "timeout_seconds": 30,
+    "max_retries": 2,
+    "api_key": ""
   },
-  "location": {
-    "me": "",
-    "her": ""
-  },
+  "kb": { "dir": "" },
+  "location": { "me": "", "her": "" },
   "monitor": {
-    "poll_interval_seconds": 3,
+    "poll_interval_seconds": 3.0,
     "history_window": 20,
-    "cooldown_seconds": 45,
     "min_interval_between_replies_seconds": 60,
     "max_replies_per_hour": 30,
-    "only_text_messages": true,
-    "confirm_before_send": false,
-    "ignore_keywords": ["[图片]", "[表情]", "[语音]", "[文件]", "[视频]"]
+    "switch_debounce_seconds": 5,
+    "gen_fail_give_up": 3,
+    "reply_mode": "confirm"
   },
-  "paths": {
-    "state_file": "data/state.json",
-    "log_dir": "logs"
-  }
+  "fewshot": { "enabled": true, "k": 3, "method": "keyword" },
+  "humanize": { "enabled": true, "mode": "prompt" },
+  "approval": {
+    "money_level": "manual",
+    "meet_same_city_level": "suggest",
+    "meet_distance_level": "manual",
+    "night_send_level": "suggest",
+    "quiet_hours": [23, 6]
+  },
+  "paths": { "db_file": "data/junshi.db", "log_dir": "logs" }
 }

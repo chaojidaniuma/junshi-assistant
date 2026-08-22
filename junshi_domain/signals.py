@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""信号检测：规则词典（离线，不依赖 LLM）。"""
+"""信号检测：规则词典（离线，不依赖 LLM）。从 goutou/signals.py 迁移。"""
 
 SIGNAL_RULES = [
     ("shizhe",   ["实则", "实则在"]),
@@ -14,7 +14,6 @@ SIGNAL_RULES = [
     ("plan",     ["到时候", "明天", "周末", "放假", "开学", "下周"]),
 ]
 
-# 信号 → 生成时的处理提示
 SIGNAL_GUIDANCE = {
     "shizhe":   "她用了「实则」：这是她表达真实感受的标志，认真回应她的感受本身，不要打趣不要转移话题。",
     "sad":      "她在求关注/求心疼：先心疼她（一两句），再给一点情绪上的陪伴（陪聊、逗她开心），不要讲道理，不要提花钱。",
@@ -30,7 +29,6 @@ SIGNAL_GUIDANCE = {
 
 
 def detect_signals(text: str) -> list[str]:
-    """规则词典信号检测，返回命中的信号类型列表（按规则顺序）。"""
     hits: list[str] = []
     for key, keywords in SIGNAL_RULES:
         if key in hits:
