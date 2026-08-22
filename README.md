@@ -42,6 +42,8 @@ junshi_domain/       领域纯函数
 providers/           LLM 提供方（base 抽象 + OpenAI 兼容实现：重试/SSE 流式回退/JSON 提取）
 adapters/            平台适配（ChatAdapter 抽象基类 + 微信 wxauto4 实现）
 interfaces/web/      FastAPI REST + WebSocket + 自包含前端（毛玻璃 UI，无需 npm build）
+cloud/               云端 API（供手机键盘调用：/api/generate + /api/quota，复用 domain+providers）
+mobile-android/      Android AI 键盘（基于 Replies_AI 改造，剪贴板监听，接 cloud API）
 runtime.py           MonitorRuntime：轮询循环 → Turn 触发器
 run_web.py           Web 入口 → http://127.0.0.1:8766
 run_cli.py           CLI 入口（与 Web 共用同一 harness 栈）
@@ -49,6 +51,13 @@ kb/                  关系心理学知识库（MIT，来自 powerycy/goutoujuns
 docs/REDESIGN.md     v1 → v2 重设计方案（Codex Harness 理念映射）
 tests/               16 项测试（harness 核心 11 + 领域层 5）
 ```
+
+### 三条使用路径
+| 路径 | 入口 | 说明 |
+|---|---|---|
+| **电脑端全自动** | `python run_web.py` | 监控微信自动回复（wxauto4，需电脑微信已登录） |
+| **云端建议 API** | `python cloud/run.py` (端口 9000) / `uvicorn cloud.api_server:app` | 给手机键盘出 3 条建议，含信号/知识/范例/审批 |
+| **Android 键盘** | `mobile-android/` | 复制她的消息 → 提示建议，连 cloud API |
 
 ## 三种回复模式（顶栏切换，即时生效）
 
