@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">狗头助手</string>
+    <string name="_1">_1</string>
+    <string name="util_keyboard">狗头助手</string>
+    <string name="enable_keyboard">启用键盘</string>
+    <string name="choose_keyboard">选择狗头助手键盘</string>
+    <string name="And"><![CDATA[&]]></string>
+    <string name="double_quotes">\"</string>
+    <string name="enable_keyboard_prompt">1. 开启「狗头助手」开关\n2. 弹出窗口选「狗头助手」\n3. 去微信复制她的消息，就能生成军师建议</string>
+</resources>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dark_background"
+    android:orientation="vertical">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:background="@color/dark_background">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:id="@+id/btnGoBack"
+            android:layout_height="45dp"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_goback"/>
+
+        <Button
+            android:id="@+id/btnHappy"
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="2"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_util"
+            android:backgroundTint="@color/greyColor"
+
+            android:text="Happy"
+            android:textColor="@color/white"
+
+            />
+
+        <Button
+            android:id="@+id/btnSad"
+
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:background="@drawable/btn_util"
+            android:backgroundTint="@color/greyColor"
+
+            android:text="Sad"
+            android:textColor="@color/white"
+
+            />
+
+        <Button
+            android:paddingHorizontal="5dp"
+            android:layout_marginHorizontal="10dp"
+            android:id="@+id/btnAngry"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:background="@drawable/btn_util"
+            android:backgroundTint="@color/greyColor"
+
+            android:text="Angry"
+            android:textColor="@color/white"
+
+            />
+
+        <Button
+            android:id="@+id/btnFlirty"
+
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:background="@drawable/btn_util"
+            android:backgroundTint="@color/greyColor"
+
+            android:text="Flirty"
+            android:textColor="@color/white"
+
+            />
+
+        <Button
+            android:id="@+id/btnExcited"
+
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:background="@drawable/btn_util"
+            android:backgroundTint="@color/greyColor"
+
+            android:text="Excited"
+            android:textColor="@color/white"
+
+            />
+
+        <Button
+            android:id="@+id/btnFunny"
+
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:background="@drawable/btn_util"
+            android:backgroundTint="@color/greyColor"
+
+            android:text="Funny"
+            android:textColor="@color/white"
+
+            />
+
+
+    </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- 军师顶部提示：信号 + 关系记忆（运行时填充） -->
+    <TextView
+        android:id="@+id/signalText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="2dp"
+        android:textColor="#f5a623"
+        android:textSize="13sp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/reasonText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="4dp"
+        android:textColor="#9aa1b5"
+        android:textSize="12sp"
+        android:visibility="gone"/>
+
+    <!-- 手动粘贴输入（没有剪贴板时才用） -->
+    <EditText
+        android:id="@+id/herInput"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/btn_util"
+        android:paddingHorizontal="14dp"
+        android:inputType="text"
+        android:maxLines="1"
+        android:hint="粘贴她的消息，点军师按钮生成建议"
+        android:textColor="@color/white"
+        android:textColorHint="#5d647a"
+        android:textSize="14sp"
+        android:visibility="gone"/>
+
+    <FrameLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/suggestionsRecyclerView"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:id="@+id/messageUnavailableText"
+                android:visibility="gone"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="Couldn't fetch any messages to reply to."/>
+
+        <ProgressBar
+            android:id="@+id/loadingIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+</LinearLayout>

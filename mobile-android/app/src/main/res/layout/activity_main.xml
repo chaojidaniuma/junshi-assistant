@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_background"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="20dp"
+    tools:context=".presentation.MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/util_keyboard"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center">
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:id="@+id/btnEnableKeyboard"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:cornerRadius="14dp"
+            android:backgroundTint="@color/primaryColor"
+            android:layout_marginTop="20dp"
+            android:text="@string/enable_keyboard"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:id="@+id/btnTryKeyboard"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:cornerRadius="14dp"
+            android:backgroundTint="@color/primaryColor"
+            android:layout_marginTop="20dp"
+            android:text="@string/choose_keyboard"/>
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

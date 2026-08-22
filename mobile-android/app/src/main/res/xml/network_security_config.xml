@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- 测试阶段用 IP + HTTP，允许明文（正式上线换 HTTPS 后移除） -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">43.196.94.43</domain>
+    </domain-config>
+</network-security-config>
