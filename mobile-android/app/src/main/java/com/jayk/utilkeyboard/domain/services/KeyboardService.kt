@@ -542,8 +542,6 @@ class KeyboardService(
             generateSuggestions()
         }
     }
-        }
-    }
 
     private fun observeViewModel() {
         chatViewModel.isLoading.observeForever { isLoading ->
